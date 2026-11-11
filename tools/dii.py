@@ -111,7 +111,7 @@ def charts(res):
 
 # ---------------------------------------------------------------- Εισαγωγή δεδομένων
 from_domino = st.session_state.get("dii_from_domino", [])
-options = ["📎 Παράδειγμα (Πίνακας 4 της εργασίας)", "📎 Εκτεταμένο παράδειγμα",
+options = ["📎 Δεδομένα του έργου (27/6/2025)", "📎 Ενδεικτικό σενάριο (υποθετικές τιμές)",
            "📂 Δικό μου αρχείο Excel", "✏️ Συμπλήρωση πίνακα"]
 if from_domino:
     options.insert(0, f"🔗 Από το Domino Effect ({len(from_domino)})")
@@ -125,11 +125,12 @@ if source.startswith("🔗"):
     if st.button("🗑️ Άδειασε τη λίστα από το Domino"):
         st.session_state["dii_from_domino"] = []
         st.rerun()
-elif source.startswith("📎 Παράδειγμα"):
+elif source.startswith("📎 Δεδομένα"):
     data = sample_dii()
-elif source.startswith("📎 Εκτεταμένο"):
-    data = sample_dii(extended=True)
-    st.caption("Δοκιμαστικά δεδομένα για εξοικείωση με όλες τις κατηγορίες. Δεν είναι δεδομένα της εργασίας.")
+    st.caption("Εργασίες σε καθυστέρηση στις 27/6/2025 (ελάχιστες τεκμηριωμένες ημέρες). Τα κόστη είναι εκτιμήσεις βάσει των παραδοχών της εργασίας.")
+elif source.startswith("📎 Ενδεικτικό"):
+    data = sample_dii(scenario=True)
+    st.warning("Υποθετικές καθυστερήσεις βάσει τυπικών διαρκειών – δεν αποτελούν μετρήσεις του έργου.")
 elif source.startswith("📂"):
     uploaded = st.file_uploader("Ανέβασε αρχείο Excel (.xlsx)", type=["xlsx"])
     st.caption("Απαιτούμενες στήλες: " + " · ".join(COLS_DII))

@@ -31,7 +31,7 @@ def gantt(df, day, active_mask):
     return fig
 
 
-df = load_input("energes", COLS_TASKS, sample_tasks, "Παράδειγμα (Πίνακας 1 της εργασίας)")
+df = load_input("energes", COLS_TASKS, sample_tasks, "Χρονοδιάγραμμα του έργου (Gantt 27/6/2025)")
 if df is not None:
     try:
         df["Ημερομηνία Έναρξης"] = pd.to_datetime(df["Ημερομηνία Έναρξης"])
@@ -43,8 +43,8 @@ if df is not None:
     start, end = df["Ημερομηνία Έναρξης"].min(), df["Ημερομηνία Λήξης"].max()
     c1, c2 = st.columns([1, 2])
     with c1:
-        day = pd.to_datetime(st.date_input("Ημερομηνία ελέγχου", value=pd.Timestamp(2025, 5, 11).date()
-                                           if start <= pd.Timestamp(2025, 5, 11) <= end else start.date(),
+        day = pd.to_datetime(st.date_input("Ημερομηνία ελέγχου", value=pd.Timestamp(2025, 6, 16).date()
+                                           if start <= pd.Timestamp(2025, 6, 16) <= end else start.date(),
                                            min_value=start.date(), max_value=end.date(), format="DD/MM/YYYY"))
     with c2:
         st.markdown(f"<br>Διάρκεια έργου στο αρχείο: **{start:%d/%m/%Y} – {end:%d/%m/%Y}**",
@@ -61,7 +61,8 @@ if df is not None:
     if active.empty:
         st.warning(f"Δεν υπάρχουν ενεργές εργασίες στις {day:%d/%m/%Y}.")
     else:
-        st.dataframe(fmt_dates(active[COLS_TASKS], COLS_TASKS[2:]), hide_index=True, width="stretch")
+        cols = COLS_TASKS + [c for c in ["Κατάσταση"] if c in active]
+        st.dataframe(fmt_dates(active[cols], COLS_TASKS[2:]), hide_index=True, width="stretch")
         per_crew = active.groupby("Συνεργείο").size().sort_values(ascending=False)
         if (per_crew > 1).any():
             busy = ", ".join(f"{k} ({v})" for k, v in per_crew[per_crew > 1].items())

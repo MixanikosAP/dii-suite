@@ -37,7 +37,7 @@ def affected_tasks(task, df):
     return found
 
 
-df = load_input("domino", COLS_DOMINO, sample_domino, "Παράδειγμα (αλυσίδα εργασιών κελύφους)")
+df = load_input("domino", COLS_DOMINO, sample_domino, "Χρονοδιάγραμμα του έργου (Gantt 27/6/2025)")
 if df is not None:
     df["Ημερομηνία Έναρξης"] = pd.to_datetime(df["Ημερομηνία Έναρξης"])
     df["Ημερομηνία Λήξης"] = pd.to_datetime(df["Ημερομηνία Λήξης"])

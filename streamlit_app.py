@@ -7,7 +7,10 @@ import streamlit as st
 from common import THESIS, apply_style, footer
 
 st.set_page_config(page_title="DII Suite – Αξιολόγηση Καθυστερήσεων", page_icon="🏗️", layout="wide")
-apply_style()
+with st.sidebar:
+    presentation = st.toggle("🎥 Λειτουργία προβολής", key="presentation",
+                             help="Μεγαλύτερα γράμματα και αριθμοί για προβολή σε projector.")
+apply_style(presentation)
 
 
 def home():
